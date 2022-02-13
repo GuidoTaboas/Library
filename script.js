@@ -64,7 +64,7 @@ function createCard(book) {
     isReadCheck(IS_READ, isRead);
     
     //Create delete button
-    let delBook= document.createElement('button');
+    let delBook= document.createElement('div');
     delBook.innerText = 'Remove';
     delBook.className = 'delBook';
 
@@ -76,6 +76,10 @@ function createCard(book) {
     isReadDiv.appendChild(isReadLabel);
     isReadDiv.appendChild(isRead);
     card.appendChild(delBook);
+
+    setCardColor(isRead, card)
+    
+    
 
     return card;
 }    
@@ -92,11 +96,31 @@ function displayBook(bookDisplay, book) {
     bookDisplay.appendChild(card);
 }
 
-function delButtons(){document.querySelectorAll('.delBook').forEach(button => {
-    button.addEventListener('click', function() {
+function delButtons() {
+    document.querySelectorAll('.delBook').forEach(button => {
+        button.addEventListener('click', function() {
         delBook(button);
     })
 })}
+
+function setCardColor(item, bookCard) {
+    if(item.checked) {
+        bookCard.style.backgroundColor = '#c0ecc0'; 
+        bookCard.style.border = '0.1em solid #c0ecc0';
+    } else {
+        bookCard.style.backgroundColor = '#ffc397'; 
+        bookCard.style.border = '0.1em solid #ffc397';
+    }
+}
+
+function checkbox() {
+    document.querySelectorAll('.isReadCheckbox').forEach(button => {
+        button.addEventListener('change', function() {
+            let bookCard = button.parentElement.parentElement
+            setCardColor(button, bookCard)
+        })
+    })
+}
 
 function delBook(elem) {
     let book = elem.parentNode;
@@ -110,16 +134,6 @@ function clearForm() {
     PAGES.value = '';
     IS_READ.checked = false;
 }
-
-// function openForm() {
-//     let form = document.querySelector('.form');
-//     if (form.style.visibility == 'visible') {
-//         form.style.visibility = 'hidden';
-//     } else {
-//         form.style.visibility = 'visible';
-//     }
-// }
-
 
 function addBook() {
     if (TITLE.value == '' || AUTHOR.value == '' || PAGES.value == '' || MY_LIBRARY.some(book => book.title === TITLE.value)) {
@@ -136,16 +150,7 @@ function addBook() {
 
 ADD_BOOK_SUBMIT.addEventListener('click', addBook)
 CLEAR_BUTTON.addEventListener('click', clearForm)
-// FORM_BUTTON.addEventListener('click', openForm)
 DEL_ALL.addEventListener('click', delAll)
-
-function changeReadColor() {
-    console.log(isRead.parentElement)
-}
-
-console.log(isRead)
-
-
 
 let theHobbit = new Book('The Hobbit', 'J.R.R. Tolkien', '295', 'not read yet');
 let theLordOfTheRings = new Book('The Lord of the Rings', 'J.R.R. Tolkien', '350', 'read');
@@ -161,4 +166,4 @@ MY_LIBRARY.push(theLordOfTheRings, theHobbit, theNameOfTheWind,theLordOfTheRings
 
 displayLibrary(BOOK_DISPLAY, MY_LIBRARY);
 delButtons();
-isRead.addEventListener('change', changeReadColor)
+checkbox();
