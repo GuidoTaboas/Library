@@ -53,6 +53,7 @@ body {
     text-align: center;
     border: 0.1em solid rgb(221, 228, 230);
     transition: all 0.1s ease-in-out;
+    width: 100%;
 }
 
 #deleteAll:hover {
